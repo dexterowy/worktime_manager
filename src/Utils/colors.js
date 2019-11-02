@@ -2,7 +2,7 @@ const colors = {
   backgrounds: {
     navbar: '#636363',
     corner: '#474747',
-    app: '#ACACAC',
+    app: '#E7E7E7',
     hover: '#AEAFA5',
     modal: '#D9D9D9',
   },
