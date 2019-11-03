@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
 
 import colors from '../../Utils/colors';
 import IconButton from '../IconButton/IconButton';
@@ -34,7 +35,7 @@ const IconsGroup = styled.div`
   flex-direction: column;
 `;
 
-const Menu = ({ toggled, defaultPosition }) => {
+const Menu = ({ toggled, defaultPosition, changeLanguage }) => {
   const MenuWrapper = styled.div`
     position: fixed;
     display: flex;
@@ -55,12 +56,18 @@ const Menu = ({ toggled, defaultPosition }) => {
   return (
     <MenuWrapper>
       <IconsGroup>
-        <IconButton icon={dashboard} />
-        <IconButton icon={file} />
-        <IconButton icon={user} />
+        <Link to="/">
+          <IconButton icon={dashboard} />
+        </Link>
+        <Link to="/projects">
+          <IconButton icon={file} />
+        </Link>
+        <Link to="/employee">
+          <IconButton icon={user} />
+        </Link>
       </IconsGroup>
       <IconsGroup>
-        <IconButton icon={settings} />
+        <IconButton icon={settings} click={changeLanguage} />
       </IconsGroup>
     </MenuWrapper>
   );
@@ -69,6 +76,13 @@ const Menu = ({ toggled, defaultPosition }) => {
 Menu.propTypes = {
   toggled: PropTypes.bool.isRequired,
   defaultPosition: PropTypes.bool.isRequired,
+
+  // TEST PROP
+  changeLanguage: PropTypes.func,
+};
+
+Menu.defaultProps = {
+  changeLanguage: PropTypes.func,
 };
 
 export default Menu;

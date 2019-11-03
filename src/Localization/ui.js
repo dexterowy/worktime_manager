@@ -1,12 +1,24 @@
 const texts = {
   appname: {
     pol: 'System Ewidencji Czasu Pracy',
-    en: '',
+    en: 'Worktime Manager',
   },
-  header: {
-    dashboard: {
-      pol: 'System Ewidencji Czasu Pracy - Kokpit',
-      en: '',
+  dashboard: {
+    header: {
+      pol: 'Kokpit',
+      en: 'Dashboard',
+    },
+  },
+  employee: {
+    header: {
+      pol: 'Pracownicy',
+      en: 'Employee',
+    },
+  },
+  projects: {
+    header: {
+      pol: 'Projekty',
+      en: 'Projects',
     },
   },
 };

@@ -1,35 +1,38 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import { Switch, Route } from 'react-router-dom';
+import TextContext from './context/textContext';
+import text from './Localization/ui';
 
 //  JSON files
-import employee from './employee.json';
-import projects from './projects.json';
+import employeeFile from './employee.json';
+import projectsFile from './projects.json';
 
 //  Components
 import Navbar from './Components/Navbar/Navbar';
 import Menu from './Components/Menu/Menu';
+import Dashboard from './Components/Dashboard/Dashboard';
+import List from './Components/Lists/List';
+
+// utils
 import colors from './Utils/colors';
 
-const AppWrapper = styled.div``;
+const AppWrapper = styled.div`
+  background: ${colors.backgrounds.app};
+`;
 
 const MainWrapper = styled.div`
   display: flex;
-`;
-
-const ContentWrapper = styled.div`
-  margin-left: 60px;
-  width: 100%;
-  min-height: calc(100vh - 60px);
-  background: ${colors.backgrounds.app};
 `;
 
 export default class App extends Component {
   constructor() {
     super();
     this.state = {
+      language: 'pol',
       database: {
-        employee,
-        projects,
+        employee: employeeFile,
+        projects: projectsFile,
       },
       menu: {
         defaultPosition: true,
@@ -48,17 +51,58 @@ export default class App extends Component {
     }));
   }
 
+  // JUST TO CHECK IF I18N WORKS
+  changeLanguageHandler() {
+    this.setState((prevState) => {
+      if (prevState.language === 'pol') {
+        return {
+          language: 'en',
+        };
+      }
+      return {
+        language: 'pol',
+      };
+    });
+  }
+
   render() {
-    const { menu, database } = this.state;
-    console.log(database.employee);
+    const {
+      menu,
+      language,
+      database: { projects, employee },
+    } = this.state;
     return (
-      <AppWrapper>
-        <Navbar toggleMenu={() => this.toggleMenuHandler()} />
-        <MainWrapper>
-          <Menu toggled={menu.isOpen} defaultPosition={menu.defaultPosition} />
-          <ContentWrapper />
-        </MainWrapper>
-      </AppWrapper>
+      <TextContext.Provider
+        value={{
+          texts: { ...text },
+          language,
+          projects,
+          employee,
+        }}
+      >
+        <AppWrapper>
+          <Navbar
+            isOpen={menu.isOpen}
+            toggleMenu={() => this.toggleMenuHandler()}
+          />
+          <MainWrapper>
+            <Menu
+              toggled={menu.isOpen}
+              defaultPosition={menu.defaultPosition}
+              changeLanguage={() => this.changeLanguageHandler()}
+            />
+            <Switch>
+              <Route path="/" exact component={Dashboard} />
+              <Route path="/projects" extact>
+                <List type="projects" />
+              </Route>
+              <Route path="/employee" exact>
+                <List type="employee" />
+              </Route>
+            </Switch>
+          </MainWrapper>
+        </AppWrapper>
+      </TextContext.Provider>
     );
   }
 }

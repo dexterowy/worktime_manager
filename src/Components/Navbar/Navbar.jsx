@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 
+import LangContext from '../../context/textContext';
 import colors from '../../Utils/colors';
-import ui from '../../Localization/ui';
 
 import menuIcon from '../../assets/icons/menu.svg';
+import close from '../../assets/icons/x.svg';
 import IconButton from '../IconButton/IconButton';
 
 const NavbarWrapper = styled.div`
@@ -16,7 +18,9 @@ const NavbarWrapper = styled.div`
   align-items: center;
 `;
 
-const Navbar = ({ toggleMenu }) => {
+const Navbar = ({ toggleMenu, isOpen }) => {
+  const { texts, language } = useContext(LangContext);
+
   const H1 = styled.h1`
     color: ${colors.fonts.light};
     font-family: sans-serif;
@@ -24,16 +28,24 @@ const Navbar = ({ toggleMenu }) => {
     width: calc(100% - 60px);
   `;
 
+  const CornerBox = styled.div`
+    width: 60px;
+    height: 60px;
+    background: ${colors.backgrounds.corner};
+  `;
   return (
     <NavbarWrapper>
-      <IconButton menu icon={menuIcon} toggleMenu={toggleMenu} />
-      <H1>{ui.header.dashboard.pol}</H1>
+      <CornerBox>
+        <IconButton icon={isOpen ? close : menuIcon} click={toggleMenu} />
+      </CornerBox>
+      <H1>{texts.appname[language]}</H1>
     </NavbarWrapper>
   );
 };
 
 Navbar.propTypes = {
   toggleMenu: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
 };
 
-export default Navbar;
+export default withRouter(Navbar);

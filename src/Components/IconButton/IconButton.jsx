@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import colors from '../../Utils/colors';
 
-const IconButton = ({ icon, menu, toggleMenu }) => {
+const IconButton = ({ icon, click }) => {
   const IconButtonWrapper = styled.div`
     padding: 5px;
     width: 60px;
@@ -11,8 +10,6 @@ const IconButton = ({ icon, menu, toggleMenu }) => {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: ${menu ? colors.backgrounds.corner : 'none'};
-
     :hover {
       cursor: pointer;
     }
@@ -23,19 +20,18 @@ const IconButton = ({ icon, menu, toggleMenu }) => {
     height: 40px;
   `;
   return (
-    <IconButtonWrapper onClick={toggleMenu}>
+    <IconButtonWrapper onClick={click}>
       <StyledImg src={icon} alt="" />
     </IconButtonWrapper>
   );
 };
 IconButton.propTypes = {
   icon: PropTypes.string.isRequired,
-  menu: PropTypes.bool,
-  toggleMenu: PropTypes.func,
+  click: PropTypes.func,
 };
 
 IconButton.defaultProps = {
-  toggleMenu: null,
-  menu: null,
+  click: () => {},
 };
+
 export default IconButton;
