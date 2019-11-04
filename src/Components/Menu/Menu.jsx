@@ -62,7 +62,7 @@ const Menu = ({ toggled, defaultPosition, changeLanguage }) => {
         <Link to="/projects">
           <IconButton icon={file} />
         </Link>
-        <Link to="/employee">
+        <Link to="/employees">
           <IconButton icon={user} />
         </Link>
       </IconsGroup>

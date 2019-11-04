@@ -5,14 +5,14 @@ import TextContext from './context/textContext';
 import text from './Localization/ui';
 
 //  JSON files
-import employeeFile from './employee.json';
+import employeesFile from './employees.json';
 import projectsFile from './projects.json';
 
 //  Components
 import Navbar from './Components/Navbar/Navbar';
 import Menu from './Components/Menu/Menu';
 import Dashboard from './Components/Dashboard/Dashboard';
-import List from './Components/Lists/List';
+import List from './Components/Lists/ListPage';
 
 // utils
 import colors from './Utils/colors';
@@ -31,7 +31,7 @@ export default class App extends Component {
     this.state = {
       language: 'pol',
       database: {
-        employee: employeeFile,
+        employees: employeesFile,
         projects: projectsFile,
       },
       menu: {
@@ -69,7 +69,7 @@ export default class App extends Component {
     const {
       menu,
       language,
-      database: { projects, employee },
+      database: { projects, employees },
     } = this.state;
     return (
       <TextContext.Provider
@@ -77,7 +77,7 @@ export default class App extends Component {
           texts: { ...text },
           language,
           projects,
-          employee,
+          employees,
         }}
       >
         <AppWrapper>
@@ -96,8 +96,8 @@ export default class App extends Component {
               <Route path="/projects" extact>
                 <List type="projects" />
               </Route>
-              <Route path="/employee" exact>
-                <List type="employee" />
+              <Route path="/employees" exact>
+                <List type="employees" />
               </Route>
             </Switch>
           </MainWrapper>

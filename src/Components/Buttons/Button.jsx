@@ -11,11 +11,17 @@ const Button = ({ type, label, click }) => {
   else if (type === 'doit') color = colors.buttons.doit;
 
   const StyledButton = styled.button`
-    width: 200px;
-    height: 55px;
+    width: 150px;
+    height: 50px;
     border: 1px solid ${colors.backgrounds.navbar};
     border-radius: 5px;
     background: ${color};
+    margin-right: 20px;
+    font-size: 1em;
+    color: ${colors.fonts.light};
+    :hover {
+      cursor: pointer;
+    }
   `;
 
   return (

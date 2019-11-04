@@ -11,6 +11,7 @@ const ContentWrapper = styled.div`
   background: ${colors.backgrounds.app};
   padding: 30px;
   font-family: sans-serif;
+  color: ${colors.fonts.dark};
 `;
 
 const mainWrapper = ({ children }) => (
@@ -18,7 +19,10 @@ const mainWrapper = ({ children }) => (
 );
 
 mainWrapper.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
 };
 
 export default mainWrapper;

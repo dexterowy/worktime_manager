@@ -1,27 +1,44 @@
-import React, { useContext } from 'react';
+/* eslint-disable object-curly-newline */
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import textContext from '../../context/textContext';
 
-import MainWrapper from '../../hoc/MainWrapper';
+import ListItem from './ListItem';
+import ListHeader from './ListHeader';
 
-const ListHeader = styled.h2`
-  text-align: center;
-  margin: 10px;
+const ListWrapper = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 40px;
+  table-layout: fixed;
+  /* text-align: center; */
 `;
 
-const List = ({ type }) => {
-  const { texts, language } = useContext(textContext);
+const StyledList = styled.tbody`
+  list-style: none;
+  width: 100%;
+`;
 
-  return (
-    <MainWrapper>
-      <ListHeader>{texts[type].header[language]}</ListHeader>
-    </MainWrapper>
-  );
-};
+const List = ({ type, data }) => (
+  <ListWrapper>
+    <ListHeader type={type} />
+    <StyledList>
+      {data.map(({ id, firstName, lastName, name }) => {
+        if (type === 'projects') {
+          return <ListItem id={id} name={name} key={id} />;
+        }
+        return (
+          <ListItem id={id} name={firstName} lastname={lastName} key={id} />
+        );
+      })}
+    </StyledList>
+  </ListWrapper>
+);
 
 List.propTypes = {
-  type: PropTypes.oneOf(['employee', 'projects']).isRequired,
+  type: PropTypes.string.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.array.isRequired,
 };
 
 export default List;
