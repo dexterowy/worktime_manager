@@ -19,6 +19,7 @@ const Button = ({ type, label, click }) => {
     margin-right: 20px;
     font-size: 1em;
     color: ${colors.fonts.light};
+    box-shadow: 1px 1px 3px ${colors.backgrounds.navbar};
     :hover {
       cursor: pointer;
     }

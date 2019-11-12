@@ -4,8 +4,10 @@ import texts from '../Localization/ui';
 const textContext = React.createContext({
   texts: { ...texts },
   language: 'pol',
-  employees: {},
-  projects: {},
+  database: {
+    employees: [],
+    projects: [],
+  },
 });
 
 export default textContext;

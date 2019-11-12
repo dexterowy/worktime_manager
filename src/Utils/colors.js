@@ -13,7 +13,7 @@ const colors = {
   buttons: {
     primary: '#11A0BF',
     danger: '#BF1111',
-    doit: '#11BF18',
+    doit: '#0D9E12',
   },
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import colors from '../../Utils/colors';
 
 import infoSvg from '../../assets/icons/alert-circle.svg';
@@ -13,7 +13,7 @@ const StyledListItem = styled.tr`
   color: ${colors.backgrounds.navbar};
   font-size: 1em;
   border-bottom: 1px solid ${colors.backgrounds.navbar};
-  transition: 0.2s ease-in-out;
+  transition: 0.1s linear;
   display: flex;
   /* justify-content: flex-start; */
   align-items: center;
@@ -45,35 +45,105 @@ const StyledIcon = styled.img`
   }
 `;
 
-// const Info = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   width: 40%;
-// `;
+// eslint-disable-next-line object-curly-newline
+const ListItem = ({
+  type,
+  id,
+  name,
+  lastName,
+  hours,
+  location: { pathname },
+}) => {
+  let styledData;
+  if (type === 'projects') {
+    styledData = (
+      <>
+        <StyledData>{id}</StyledData>
+        <StyledData>{name}</StyledData>
+        <StyledData>
+          <Link to={`${pathname}/${id}`}>
+            <StyledIcon src={infoSvg} />
+          </Link>
+        </StyledData>
+      </>
+    );
+  } else if (type === 'employees') {
+    styledData = (
+      <>
+        <StyledData>{id}</StyledData>
+        <StyledData>{name}</StyledData>
+        <StyledData>{lastName}</StyledData>
+        <StyledData>
+          <Link to={`${pathname}/${id}`}>
+            <StyledIcon src={infoSvg} />
+          </Link>
+        </StyledData>
+      </>
+    );
+  } else if (type === 'projectsDetails') {
+    styledData = (
+      <>
+        <StyledData>{id}</StyledData>
+        <StyledData>{name}</StyledData>
+        <StyledData>{lastName}</StyledData>
+        <StyledData>{hours}</StyledData>
+        <StyledData>
+          <Link to={`/employees/${id}`}>
+            <StyledIcon src={infoSvg} />
+          </Link>
+        </StyledData>
+      </>
+    );
+  } else {
+    styledData = (
+      <>
+        <StyledData>{id}</StyledData>
+        <StyledData>{name}</StyledData>
+        <StyledData>{hours}</StyledData>
+        <StyledData>
+          <Link to={`/projects/${id}`}>
+            <StyledIcon src={infoSvg} />
+          </Link>
+        </StyledData>
+      </>
+    );
+  }
 
-const ListItem = ({ id, name, lastname }) => (
-  <StyledListItem>
-    {/* <Info> */}
-    <StyledData>{id}</StyledData>
-    <StyledData>{name}</StyledData>
-    {lastname !== '' ? <StyledData>{lastname}</StyledData> : null}
-    {/* </Info> */}
-    <StyledData>
-      <Link to="/">
-        <StyledIcon src={infoSvg} />
-      </Link>
-    </StyledData>
-  </StyledListItem>
-);
+  return (
+    <StyledListItem>
+      {/* <Info>
+      <StyledData>{id}</StyledData>
+      <StyledData>{name}</StyledData>
+      {lastname !== '' ? <StyledData>{lastname}</StyledData> : null}
+      <StyledData>
+        <Link to={`${pathname}/${id}`}>
+          <StyledIcon src={infoSvg} />
+        </Link>
+      </StyledData> */}
+      {styledData}
+    </StyledListItem>
+  );
+};
 
 ListItem.propTypes = {
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  lastname: PropTypes.string,
+  lastName: PropTypes.string,
+  location: PropTypes.shape({
+    pathname: PropTypes.string,
+  }).isRequired,
+  type: PropTypes.oneOf([
+    'projects',
+    'employees',
+    'projectsDetails',
+    'employeesDetails',
+  ]).isRequired,
+  hours: PropTypes.number,
 };
 
 ListItem.defaultProps = {
-  lastname: '',
+  lastName: '',
+  hours: 0,
 };
 
-export default ListItem;
+export default withRouter(ListItem);

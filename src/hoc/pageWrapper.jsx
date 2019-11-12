@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import colors from '../Utils/colors';
 
-const ContentWrapper = styled.div`
+const Content = styled.div`
   margin-left: 60px;
   width: 100%;
   min-height: calc(100vh - 60px);
@@ -14,15 +14,13 @@ const ContentWrapper = styled.div`
   color: ${colors.fonts.dark};
 `;
 
-const mainWrapper = ({ children }) => (
-  <ContentWrapper>{children}</ContentWrapper>
-);
+const pageWrapper = ({ children }) => <Content>{children}</Content>;
 
-mainWrapper.propTypes = {
+pageWrapper.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.arrayOf(PropTypes.node),
     PropTypes.node,
   ]).isRequired,
 };
 
-export default mainWrapper;
+export default pageWrapper;

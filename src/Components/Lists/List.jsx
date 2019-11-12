@@ -23,12 +23,35 @@ const List = ({ type, data }) => (
   <ListWrapper>
     <ListHeader type={type} />
     <StyledList>
-      {data.map(({ id, firstName, lastName, name }) => {
+      {data.map(({ id, firstName, lastName, name, hours }) => {
         if (type === 'projects') {
-          return <ListItem id={id} name={name} key={id} />;
+          return <ListItem type={type} id={id} name={name} key={id} />;
+        }
+        if (type === 'employees') {
+          return (
+            <ListItem
+              type={type}
+              id={id}
+              name={firstName}
+              lastName={lastName}
+              key={id}
+            />
+          );
+        }
+        if (type === 'projectsDetails') {
+          return (
+            <ListItem
+              type={type}
+              id={id}
+              name={firstName}
+              lastName={lastName}
+              hours={hours}
+              key={id}
+            />
+          );
         }
         return (
-          <ListItem id={id} name={firstName} lastname={lastName} key={id} />
+          <ListItem type={type} id={id} name={name} hours={hours} key={id} />
         );
       })}
     </StyledList>
@@ -36,7 +59,12 @@ const List = ({ type, data }) => (
 );
 
 List.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.oneOf([
+    'projects',
+    'employees',
+    'projectsDetails',
+    'employeesDetails',
+  ]).isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   data: PropTypes.array.isRequired,
 };
