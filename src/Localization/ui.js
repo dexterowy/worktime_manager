@@ -101,8 +101,12 @@ const texts = {
           en: 'Delete Project',
         },
         report: {
-          pol: 'Generuj raport',
-          en: 'Generate report',
+          pol: 'Generuj Raport',
+          en: 'Generate Report',
+        },
+        hours: {
+          pol: 'Wprowadź Godziny',
+          en: 'Enter Worktime',
         },
       },
       id: {

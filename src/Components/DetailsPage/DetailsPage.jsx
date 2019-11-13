@@ -34,14 +34,23 @@ const ButtonsLine = styled.div`
   margin: 30px 0;
 `;
 
-const DetailsPage = ({ type, match, deleteEmployee, deleteProject }) => {
+const DetailsPage = (props) => {
   const { texts, language, database } = useContext(textContext);
-
+  // eslint-disable-next-line object-curly-newline
+  const {
+    type,
+    match,
+    deleteEmployee,
+    deleteProject,
+    loadEmployeeData,
+    loadProjectData,
+    openHoursModal,
+  } = props;
   // Extract info from database
   const info = database[
     type === 'projectsDetails' ? 'projects' : 'employees'
   ].find((el) => el.id === parseInt(match.params.id, 10));
-  console.log(info);
+  // console.log(info);
 
   let Details;
   let listItems = {};
@@ -51,7 +60,7 @@ const DetailsPage = ({ type, match, deleteEmployee, deleteProject }) => {
         <InfoRow label={texts.details.projects.id[language]} data={info.id} />
         <InfoRow
           label={texts.details.projects.name[language]}
-          data={info.name}
+          data={info.title}
         />
         <InfoRow
           label={texts.details.projects.desc[language]}
@@ -60,7 +69,7 @@ const DetailsPage = ({ type, match, deleteEmployee, deleteProject }) => {
       </>
     );
 
-    //	Find and match related projects for this person
+    // Find and match related projects for this person
     listItems = database.employees
       .filter((person) => {
         let matchPerson = false;
@@ -97,26 +106,24 @@ const DetailsPage = ({ type, match, deleteEmployee, deleteProject }) => {
         />
       </>
     );
-    //	Find and match persons for this project
-    listItems = info.projects.map((el) => {
-      return {
-        ...database.projects.find((item) => el.id === item.id),
-        hours: el.hours,
-      };
-    });
+    //  Find and match persons for this project
+    listItems = info.projects.map((el) => ({
+      ...database.projects.find((item) => el.id === item.id),
+      hours: el.hours,
+    }));
 
     // console.log(listItems);
   }
 
   //  TO REMOVE!!!1
   const tmp = () => {
-    console.log('clicked!');
+    // console.log('clicked!');
   };
   const EmployeeButtons = (
     <ButtonsLine>
       <Button
         type="primary"
-        click={tmp}
+        click={() => loadEmployeeData(info.id)}
         label={texts.details.employees.buttons.edit[language]}
       />
       <Button
@@ -130,8 +137,13 @@ const DetailsPage = ({ type, match, deleteEmployee, deleteProject }) => {
   const ProjectButtons = (
     <ButtonsLine>
       <Button
+        type="doit"
+        click={() => openHoursModal('hours')}
+        label={texts.details.projects.buttons.hours[language]}
+      />
+      <Button
         type="primary"
-        click={tmp}
+        click={() => loadProjectData(info.id)}
         label={texts.details.projects.buttons.edit[language]}
       />
       <Button
@@ -174,6 +186,17 @@ DetailsPage.propTypes = {
       id: PropTypes.string,
     }),
   }).isRequired,
+  deleteEmployee: PropTypes.func,
+  deleteProject: PropTypes.func,
+  loadEmployeeData: PropTypes.func,
+  loadProjectData: PropTypes.func,
+};
+
+DetailsPage.defaultProps = {
+  deleteEmployee: () => {},
+  deleteProject: () => {},
+  loadEmployeeData: () => {},
+  loadProjectData: () => {},
 };
 
 export default withRouter(DetailsPage);

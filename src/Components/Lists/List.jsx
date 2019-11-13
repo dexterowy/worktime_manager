@@ -23,9 +23,9 @@ const List = ({ type, data }) => (
   <ListWrapper>
     <ListHeader type={type} />
     <StyledList>
-      {data.map(({ id, firstName, lastName, name, hours }) => {
+      {data.map(({ id, firstName, lastName, title, hours }) => {
         if (type === 'projects') {
-          return <ListItem type={type} id={id} name={name} key={id} />;
+          return <ListItem type={type} id={id} name={title} key={id} />;
         }
         if (type === 'employees') {
           return (
@@ -51,7 +51,7 @@ const List = ({ type, data }) => (
           );
         }
         return (
-          <ListItem type={type} id={id} name={name} hours={hours} key={id} />
+          <ListItem type={type} id={id} name={title} hours={hours} key={id} />
         );
       })}
     </StyledList>

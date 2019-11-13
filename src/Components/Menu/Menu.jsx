@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
@@ -35,43 +35,41 @@ const IconsGroup = styled.div`
   flex-direction: column;
 `;
 
-const Menu = ({ toggled, defaultPosition, changeLanguage }) => {
-  const MenuWrapper = styled.div`
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    top: 60px;
-    left: 0;
-    width: 60px;
-    height: calc(100vh - 60px);
-    background: ${colors.backgrounds.navbar};
+const MenuWrapper = styled.div`
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  top: 60px;
+  left: 0;
+  width: 60px;
+  height: calc(100vh - 60px);
+  background: ${colors.backgrounds.navbar};
 
-    /* Menu toggle animation */
-    /* 'defaultPosition' prevent to animate on first load */
-    animation: ${toggled ? showAnimation : hideAnimation}
-      ${defaultPosition ? '0s' : '0.1s'} ease forwards;
-  `;
+  /* Menu toggle animation */
+  /* 'defaultPosition' prevent to animate on first load */
+  animation: ${(props) => (props.toggled ? showAnimation : hideAnimation)}
+    ${(props) => (props.defaultPosition ? '0s' : '0.1s')} ease forwards;
+`;
 
-  return (
-    <MenuWrapper>
-      <IconsGroup>
-        <Link to="/">
-          <IconButton icon={dashboard} />
-        </Link>
-        <Link to="/projects">
-          <IconButton icon={file} />
-        </Link>
-        <Link to="/employees">
-          <IconButton icon={user} />
-        </Link>
-      </IconsGroup>
-      <IconsGroup>
-        <IconButton icon={settings} click={changeLanguage} />
-      </IconsGroup>
-    </MenuWrapper>
-  );
-};
+const Menu = ({ toggled, defaultPosition, changeLanguage }) => (
+  <MenuWrapper toggled={toggled} defaultPosition={defaultPosition}>
+    <IconsGroup>
+      <Link to="/">
+        <IconButton icon={dashboard} />
+      </Link>
+      <Link to="/projects">
+        <IconButton icon={file} />
+      </Link>
+      <Link to="/employees">
+        <IconButton icon={user} />
+      </Link>
+    </IconsGroup>
+    <IconsGroup>
+      <IconButton icon={settings} click={changeLanguage} />
+    </IconsGroup>
+  </MenuWrapper>
+);
 
 Menu.propTypes = {
   toggled: PropTypes.bool.isRequired,
@@ -85,4 +83,15 @@ Menu.defaultProps = {
   changeLanguage: PropTypes.func,
 };
 
-export default Menu;
+const checkProps = (prev, next) => {
+  if (
+    // eslint-disable-next-line operator-linebreak
+    prev.toggled === next.toggled &&
+    prev.defaultPosition === next.defaultPosition
+  ) {
+    return true;
+  }
+  return false;
+};
+
+export default memo(Menu, checkProps);

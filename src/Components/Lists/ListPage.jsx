@@ -16,7 +16,7 @@ const ButtonsLine = styled.div`
   width: 100%;
 `;
 
-const ListPage = ({ type }) => {
+const ListPage = ({ type, openModal }) => {
   // eslint-disable-next-line object-curly-newline
   const {
     texts,
@@ -32,7 +32,7 @@ const ListPage = ({ type }) => {
     <>
       <Button
         type="doit"
-        click={tmp}
+        click={() => openModal('addEmployee')}
         label={texts.employees.buttons.add[language]}
       />
       <Button
@@ -46,7 +46,7 @@ const ListPage = ({ type }) => {
   const ProjectsButtons = (
     <Button
       type="doit"
-      click={tmp}
+      click={() => openModal('addProject')}
       label={texts.projects.buttons.add[language]}
     />
   );
@@ -63,6 +63,7 @@ const ListPage = ({ type }) => {
 
 ListPage.propTypes = {
   type: PropTypes.oneOf(['employees', 'projects']).isRequired,
+  openModal: PropTypes.func.isRequired,
 };
 
 export default ListPage;
