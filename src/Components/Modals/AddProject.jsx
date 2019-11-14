@@ -33,10 +33,10 @@ const DescRow = styled.label`
 `;
 
 const DescInput = styled.textarea`
-  height: 100px;
+  height: 200px;
   display: flex;
   margin: 20px 0;
-  font-size: 1.2em;
+  font-size: 1em;
 `;
 
 const ModalInputs = styled.div`
@@ -54,6 +54,8 @@ const ModalButtons = styled.div`
 
 const AddProject = ({
   value,
+  labels,
+  language,
   changeTitle,
   changeDesc,
   closeModal,
@@ -61,10 +63,11 @@ const AddProject = ({
   show,
 }) => (
   <Backdrop show={show}>
-    <Modal>
+    <Modal header={labels.header[language]}>
       <ModalInputs>
         <InputRow htmlFor="title">
-          Title:
+          {labels.labels.title[language]}
+          :
           <ModalInput
             type="text"
             name="title"
@@ -73,13 +76,22 @@ const AddProject = ({
           />
         </InputRow>
         <DescRow htmlFor="desc">
-          Description:
+          {labels.labels.desc[language]}
+          :
           <DescInput name="desc" value={value.desc} onChange={changeDesc} />
         </DescRow>
       </ModalInputs>
       <ModalButtons>
-        <Button type="doit" click={addProject} label="Save" />
-        <Button type="primary" click={closeModal} label="Cancel" />
+        <Button
+          type="doit"
+          click={addProject}
+          label={labels.buttons.save[language]}
+        />
+        <Button
+          type="primary"
+          click={closeModal}
+          label={labels.buttons.cancel[language]}
+        />
       </ModalButtons>
     </Modal>
   </Backdrop>
@@ -93,6 +105,33 @@ AddProject.propTypes = {
   changeDesc: PropTypes.func,
   closeModal: PropTypes.func,
   addProject: PropTypes.func,
+  labels: PropTypes.shape({
+    labels: PropTypes.shape({
+      title: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+      desc: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+    }),
+    header: PropTypes.shape({
+      pol: PropTypes.string,
+      en: PropTypes.string,
+    }),
+    buttons: PropTypes.shape({
+      save: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+      cancel: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 AddProject.defaultProps = {

@@ -196,6 +196,152 @@ const texts = {
       },
     },
   },
+  modals: {
+    addEmployee: {
+      header: {
+        pol: 'Dodaj Pracownika',
+        en: 'Add an Employee',
+      },
+      buttons: {
+        save: {
+          pol: 'Dodaj',
+          en: 'Add',
+        },
+        cancel: {
+          pol: 'Anuluj',
+          en: 'Cancel',
+        },
+      },
+      labels: {
+        firstName: {
+          pol: 'Imię',
+          en: 'First Name',
+        },
+        lastName: {
+          pol: 'Nazwisko',
+          en: 'Last Name',
+        },
+        phone: {
+          pol: 'Telefon',
+          en: 'Phone',
+        },
+      },
+    },
+    addProject: {
+      header: {
+        pol: 'Dodaj Projekt',
+        en: 'Add a Project',
+      },
+      buttons: {
+        save: {
+          pol: 'Dodaj',
+          en: 'Add',
+        },
+        cancel: {
+          pol: 'Anuluj',
+          en: 'Cancel',
+        },
+      },
+      labels: {
+        title: {
+          pol: 'Nazwa',
+          en: 'Title',
+        },
+        desc: {
+          pol: 'Opis',
+          en: 'Description',
+        },
+      },
+    },
+    editEmployee: {
+      header: {
+        pol: 'Edytowanie Pracownika',
+        en: 'Edit an Employee',
+      },
+      buttons: {
+        save: {
+          pol: 'Zapisz',
+          en: 'Save',
+        },
+        cancel: {
+          pol: 'Anuluj',
+          en: 'Cancel',
+        },
+      },
+      labels: {
+        firstName: {
+          pol: 'Imię',
+          en: 'First Name',
+        },
+        lastName: {
+          pol: 'Nazwisko',
+          en: 'Last Name',
+        },
+        phone: {
+          pol: 'Telefon',
+          en: 'Phone',
+        },
+      },
+    },
+    editProject: {
+      header: {
+        pol: 'Edytowanie Projektu',
+        en: 'Edit a Project',
+      },
+      buttons: {
+        save: {
+          pol: 'Zapisz',
+          en: 'Save',
+        },
+        cancel: {
+          pol: 'Anuluj',
+          en: 'Cancel',
+        },
+      },
+      labels: {
+        title: {
+          pol: 'Nazwa',
+          en: 'Title',
+        },
+        desc: {
+          pol: 'Opis',
+          en: 'Description',
+        },
+      },
+    },
+    addHours: {
+      header: {
+        pol: 'Wpisz godziny',
+        en: 'Add hours',
+      },
+      buttons: {
+        save: {
+          pol: 'Zapisz',
+          en: 'Save',
+        },
+        cancel: {
+          pol: 'Anuluj',
+          en: 'Cancel',
+        },
+      },
+      labels: {
+        employeeId: {
+          pol: 'ID pracownika',
+          en: 'Employee ID',
+        },
+        hours: {
+          pol: 'Godziny',
+          en: 'Hours',
+        },
+      },
+      warning: {
+        pol:
+          'Jeżeli pracownik ma już wpisane godziny do tego projektu, zostaną one nadpisane!',
+        en:
+          'If employee has any hours in this project, it will be overwritten!',
+      },
+    },
+  },
 };
 
 export default texts;

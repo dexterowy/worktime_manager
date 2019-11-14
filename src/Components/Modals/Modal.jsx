@@ -27,15 +27,18 @@ const ModalMain = styled.div`
   height: calc(100% - 60px);
 `;
 
-const Modal = (props) => (
+const Modal = ({ children, header }) => (
   <ModalBox>
     <ModalHeader>
-      <h1>Modal Header</h1>
+      <h1>{header}</h1>
     </ModalHeader>
-    <ModalMain>{props.children}</ModalMain>
+    <ModalMain>{children}</ModalMain>
   </ModalBox>
 );
 
-Modal.propTypes = {};
+Modal.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.node).isRequired,
+  header: PropTypes.string.isRequired,
+};
 
 export default Modal;

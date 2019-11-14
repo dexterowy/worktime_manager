@@ -479,6 +479,8 @@ class App extends Component {
               changeLastName={this.lastNameInputHandler}
               changePhone={this.phoneInputHandler}
               addEmployee={this.addEmployeeHandler}
+              labels={text.modals.addEmployee}
+              language={language}
             />
             <AddEmployee
               show={modals.editEmployee}
@@ -488,6 +490,8 @@ class App extends Component {
               changeLastName={this.lastNameInputHandler}
               changePhone={this.phoneInputHandler}
               addEmployee={this.editEmployeeHandler}
+              labels={text.modals.editEmployee}
+              language={language}
             />
             <AddProject
               show={modals.addProject}
@@ -496,6 +500,8 @@ class App extends Component {
               changeTitle={this.titleInputHandler}
               changeDesc={this.descInputHandler}
               addProject={this.addProjectHandler}
+              labels={text.modals.addProject}
+              language={language}
             />
             <AddProject
               show={modals.editProject}
@@ -504,6 +510,8 @@ class App extends Component {
               changeTitle={this.titleInputHandler}
               changeDesc={this.descInputHandler}
               addProject={this.editProjectHandler}
+              labels={text.modals.editProject}
+              language={language}
             />
             <AddHours
               show={modals.hours}
@@ -512,6 +520,8 @@ class App extends Component {
               changeHours={this.hoursInputHandler}
               changeIdEmployee={this.idEmployeeInputHandler}
               addHours={this.addHours}
+              labels={text.modals.addHours}
+              language={language}
             />
             <PageWrapper>
               <Switch>

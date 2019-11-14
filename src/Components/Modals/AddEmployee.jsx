@@ -39,6 +39,8 @@ const ModalButtons = styled.div`
 const AddEmployee = ({
   show,
   value,
+  labels,
+  language,
   closeModal,
   changeFirstName,
   changeLastName,
@@ -46,10 +48,11 @@ const AddEmployee = ({
   addEmployee,
 }) => (
   <Backdrop show={show}>
-    <Modal>
+    <Modal header={labels.header[language]}>
       <ModalInputs>
         <InputRow htmlFor="firstName">
-          First name:
+          {labels.labels.firstName[language]}
+          :
           <ModalInput
             type="text"
             name="firstName"
@@ -58,7 +61,8 @@ const AddEmployee = ({
           />
         </InputRow>
         <InputRow htmlFor="lastName">
-          Last name:
+          {labels.labels.lastName[language]}
+          :
           <ModalInput
             type="text"
             name="lastName"
@@ -67,7 +71,8 @@ const AddEmployee = ({
           />
         </InputRow>
         <InputRow htmlFor="phone">
-          Phone:
+          {labels.labels.phone[language]}
+          :
           <ModalInput
             type="text"
             name="phone"
@@ -77,8 +82,16 @@ const AddEmployee = ({
         </InputRow>
       </ModalInputs>
       <ModalButtons>
-        <Button type="doit" label="Save" click={addEmployee} />
-        <Button type="primary" label="Cancel" click={closeModal} />
+        <Button
+          type="doit"
+          label={labels.buttons.save[language]}
+          click={addEmployee}
+        />
+        <Button
+          type="primary"
+          label={labels.buttons.cancel[language]}
+          click={closeModal}
+        />
       </ModalButtons>
     </Modal>
   </Backdrop>
@@ -93,6 +106,37 @@ AddEmployee.propTypes = {
   changePhone: PropTypes.func,
   closeModal: PropTypes.func,
   addEmployee: PropTypes.func,
+  labels: PropTypes.shape({
+    labels: PropTypes.shape({
+      firstName: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+      lastName: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+      phone: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+    }),
+    header: PropTypes.shape({
+      pol: PropTypes.string,
+      en: PropTypes.string,
+    }),
+    buttons: PropTypes.shape({
+      save: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+      cancel: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+    }),
+  }).isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 AddEmployee.defaultProps = {

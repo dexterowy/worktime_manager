@@ -17,9 +17,13 @@ const BackdropWrapper = styled.div`
 `;
 
 const Backdrop = ({ show, children }) => {
-  return show ? <BackdropWrapper>{children}</BackdropWrapper> : null;
+  if (show) return <BackdropWrapper>{children}</BackdropWrapper>;
+  return null;
 };
 
-Backdrop.propTypes = {};
+Backdrop.propTypes = {
+  show: PropTypes.bool.isRequired,
+  children: PropTypes.node.isRequired,
+};
 
 export default Backdrop;

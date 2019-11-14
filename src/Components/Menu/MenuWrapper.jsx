@@ -19,10 +19,10 @@ const Wrapper = styled.div`
   /* 'defaultPosition' prevent to animate on first load */
 `;
 
-const MenuWrapper = (props) => {
-  return <Wrapper>{props.children}</Wrapper>;
-};
+const MenuWrapper = ({ children }) => <Wrapper>{children}</Wrapper>;
 
-MenuWrapper.propTypes = {};
+MenuWrapper.propTypes = {
+  children: PropTypes.arrayOf(PropTypes.node).isRequired,
+};
 
 export default MenuWrapper;

@@ -47,17 +47,20 @@ const ModalWarning = styled.p`
 
 const AddHours = ({
   show,
+  labels,
   value,
+  language,
   closeModal,
   changeIdEmployee,
   changeHours,
   addHours,
 }) => (
   <Backdrop show={show}>
-    <Modal>
+    <Modal header={labels.header[language]}>
       <ModalInputs>
         <InputRow htmlFor="firstName">
-          Employee ID:
+          {labels.labels.employeeId[language]}
+          :
           <ModalInput
             type="number"
             name="employeeId"
@@ -66,7 +69,8 @@ const AddHours = ({
           />
         </InputRow>
         <InputRow htmlFor="firstName">
-          Hours:
+          {labels.labels.hours[language]}
+          :
           <ModalInput
             type="number"
             name="employeeId"
@@ -74,13 +78,19 @@ const AddHours = ({
             onChange={changeHours}
           />
         </InputRow>
-        <ModalWarning>
-          If employee has some hours in this project, it will be overwritten!
-        </ModalWarning>
+        <ModalWarning>{labels.warning[language]}</ModalWarning>
       </ModalInputs>
       <ModalButtons>
-        <Button type="doit" label="Save" click={addHours} />
-        <Button type="primary" label="Cancel" click={closeModal} />
+        <Button
+          type="doit"
+          label={labels.buttons.save[language]}
+          click={addHours}
+        />
+        <Button
+          type="primary"
+          label={labels.buttons.cancel[language]}
+          click={closeModal}
+        />
       </ModalButtons>
     </Modal>
   </Backdrop>
@@ -94,6 +104,37 @@ AddHours.propTypes = {
   changeIdEmployee: PropTypes.func,
   closeModal: PropTypes.func,
   addHours: PropTypes.func,
+  labels: PropTypes.shape({
+    labels: PropTypes.shape({
+      employeeId: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+      hours: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+    }),
+    header: PropTypes.shape({
+      pol: PropTypes.string,
+      en: PropTypes.string,
+    }),
+    buttons: PropTypes.shape({
+      save: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+      cancel: PropTypes.shape({
+        pol: PropTypes.string,
+        en: PropTypes.string,
+      }),
+    }),
+    warning: PropTypes.shape({
+      pol: PropTypes.string,
+      en: PropTypes.string,
+    }),
+  }).isRequired,
+  language: PropTypes.string.isRequired,
 };
 
 AddHours.defaultProps = {
