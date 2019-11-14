@@ -46,15 +46,15 @@ const DetailsPage = (props) => {
     loadProjectData,
     openHoursModal,
   } = props;
-  // Extract info from database
+  // Extract info about employee/project with specified id from database
   const info = database[
     type === 'projectsDetails' ? 'projects' : 'employees'
   ].find((el) => el.id === parseInt(match.params.id, 10));
-  // console.log(info);
 
   let Details;
   let listItems = {};
   if (type === 'projectsDetails') {
+    //  Template for project Details
     Details = (
       <>
         <InfoRow label={texts.details.projects.id[language]} data={info.id} />
@@ -87,8 +87,8 @@ const DetailsPage = (props) => {
           hours: project[0].hours,
         };
       });
-    // console.log(listItems);
   } else {
+    //  Template for employee Details
     Details = (
       <>
         <InfoRow label={texts.details.employees.id[language]} data={info.id} />
@@ -106,19 +106,14 @@ const DetailsPage = (props) => {
         />
       </>
     );
-    //  Find and match persons for this project
+    //  Find and match related persons for this project
     listItems = info.projects.map((el) => ({
       ...database.projects.find((item) => el.id === item.id),
       hours: el.hours,
     }));
-
-    // console.log(listItems);
   }
 
-  //  TO REMOVE!!!1
-  const tmp = () => {
-    // console.log('clicked!');
-  };
+  //  Set of buttons for demployee details page
   const EmployeeButtons = (
     <ButtonsLine>
       <Button
@@ -134,11 +129,12 @@ const DetailsPage = (props) => {
     </ButtonsLine>
   );
 
+  //  Set of buttons for project details page
   const ProjectButtons = (
     <ButtonsLine>
       <Button
         type="doit"
-        click={() => openHoursModal('hours')}
+        click={() => openHoursModal('hours', info.id)}
         label={texts.details.projects.buttons.hours[language]}
       />
       <Button
@@ -153,7 +149,9 @@ const DetailsPage = (props) => {
       />
       <Button
         type="primary"
-        click={tmp}
+        click={() => {
+          //  TO DO
+        }}
         label={texts.details.projects.buttons.report[language]}
       />
     </ButtonsLine>
@@ -190,6 +188,7 @@ DetailsPage.propTypes = {
   deleteProject: PropTypes.func,
   loadEmployeeData: PropTypes.func,
   loadProjectData: PropTypes.func,
+  openHoursModal: PropTypes.func,
 };
 
 DetailsPage.defaultProps = {
@@ -197,6 +196,7 @@ DetailsPage.defaultProps = {
   deleteProject: () => {},
   loadEmployeeData: () => {},
   loadProjectData: () => {},
+  openHoursModal: () => {},
 };
 
 export default withRouter(DetailsPage);

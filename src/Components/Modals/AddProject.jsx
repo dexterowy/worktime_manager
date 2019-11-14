@@ -59,34 +59,48 @@ const AddProject = ({
   closeModal,
   addProject,
   show,
-}) => {
-  return (
-    <Backdrop show={show}>
-      <Modal>
-        <ModalInputs>
-          <InputRow htmlFor="title">
-            Title:
-            <ModalInput
-              type="text"
-              name="title"
-              value={value.title}
-              onChange={changeTitle}
-            />
-          </InputRow>
-          <DescRow htmlFor="desc">
-            Description:
-            <DescInput name="desc" value={value.desc} onChange={changeDesc} />
-          </DescRow>
-        </ModalInputs>
-        <ModalButtons>
-          <Button type="doit" click={addProject} label="Save" />
-          <Button type="primary" click={closeModal} label="Cancel" />
-        </ModalButtons>
-      </Modal>
-    </Backdrop>
-  );
+}) => (
+  <Backdrop show={show}>
+    <Modal>
+      <ModalInputs>
+        <InputRow htmlFor="title">
+          Title:
+          <ModalInput
+            type="text"
+            name="title"
+            value={value.title}
+            onChange={changeTitle}
+          />
+        </InputRow>
+        <DescRow htmlFor="desc">
+          Description:
+          <DescInput name="desc" value={value.desc} onChange={changeDesc} />
+        </DescRow>
+      </ModalInputs>
+      <ModalButtons>
+        <Button type="doit" click={addProject} label="Save" />
+        <Button type="primary" click={closeModal} label="Cancel" />
+      </ModalButtons>
+    </Modal>
+  </Backdrop>
+);
+
+AddProject.propTypes = {
+  show: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  value: PropTypes.object,
+  changeTitle: PropTypes.func,
+  changeDesc: PropTypes.func,
+  closeModal: PropTypes.func,
+  addProject: PropTypes.func,
 };
 
-AddProject.propTypes = {};
+AddProject.defaultProps = {
+  value: {},
+  changeTitle: () => {},
+  changeDesc: () => {},
+  closeModal: () => {},
+  addProject: () => {},
+};
 
 export default AddProject;

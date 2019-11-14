@@ -44,56 +44,64 @@ const AddEmployee = ({
   changeLastName,
   changePhone,
   addEmployee,
-}) => {
-  return (
-    <Backdrop show={show}>
-      <Modal>
-        <ModalInputs>
-          <InputRow htmlFor="firstName">
-            First name:
-            <ModalInput
-              type="text"
-              name="firstName"
-              value={value.firstName}
-              onChange={changeFirstName}
-            />
-          </InputRow>
-          <InputRow htmlFor="lastName">
-            Last name:
-            <ModalInput
-              type="text"
-              name="lastName"
-              value={value.lastName}
-              onChange={changeLastName}
-            />
-          </InputRow>
-          <InputRow htmlFor="phone">
-            Phone:
-            <ModalInput
-              type="text"
-              name="phone"
-              value={value.phone}
-              onChange={changePhone}
-            />
-          </InputRow>
-        </ModalInputs>
-        <ModalButtons>
-          <Button type="doit" label="Save" click={addEmployee} />
-          <Button type="primary" label="Cancel" click={closeModal} />
-        </ModalButtons>
-      </Modal>
-    </Backdrop>
-  );
-};
+}) => (
+  <Backdrop show={show}>
+    <Modal>
+      <ModalInputs>
+        <InputRow htmlFor="firstName">
+          First name:
+          <ModalInput
+            type="text"
+            name="firstName"
+            value={value.firstName}
+            onChange={changeFirstName}
+          />
+        </InputRow>
+        <InputRow htmlFor="lastName">
+          Last name:
+          <ModalInput
+            type="text"
+            name="lastName"
+            value={value.lastName}
+            onChange={changeLastName}
+          />
+        </InputRow>
+        <InputRow htmlFor="phone">
+          Phone:
+          <ModalInput
+            type="text"
+            name="phone"
+            value={value.phone}
+            onChange={changePhone}
+          />
+        </InputRow>
+      </ModalInputs>
+      <ModalButtons>
+        <Button type="doit" label="Save" click={addEmployee} />
+        <Button type="primary" label="Cancel" click={closeModal} />
+      </ModalButtons>
+    </Modal>
+  </Backdrop>
+);
 
 AddEmployee.propTypes = {
   show: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   value: PropTypes.object,
+  changeFirstName: PropTypes.func,
+  changeLastName: PropTypes.func,
+  changePhone: PropTypes.func,
+  closeModal: PropTypes.func,
+  addEmployee: PropTypes.func,
 };
 
 AddEmployee.defaultProps = {
   value: {},
+  changeFirstName: () => {},
+  changePhone: () => {},
+  changeLastName: () => {},
+  closeModal: () => {},
+  addEmployee: () => {},
 };
 
 export default AddEmployee;

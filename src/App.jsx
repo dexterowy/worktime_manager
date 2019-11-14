@@ -59,9 +59,9 @@ class App extends Component {
         phone: '',
         title: '',
         desc: '',
-        idProject: null,
-        idEmployee: null,
-        hours: null,
+        idProject: '',
+        idEmployee: '',
+        hours: '',
       },
     };
     this.firstNameInputHandler = this.firstNameInputHandler.bind(this);
@@ -83,6 +83,7 @@ class App extends Component {
     this.editProjectHandler = this.editProjectHandler.bind(this);
     this.hoursInputHandler = this.hoursInputHandler.bind(this);
     this.idEmployeeInputHandler = this.idEmployeeInputHandler.bind(this);
+    this.addHours = this.addHours.bind(this);
   }
 
   toggleMenuHandler() {
@@ -171,7 +172,8 @@ class App extends Component {
     });
   }
 
-  openModalHandler(type) {
+  openModalHandler(type, id = null) {
+    const { inputs } = this.state;
     this.setState((prevState) => {
       const modals = {
         ...prevState.modals,
@@ -182,6 +184,15 @@ class App extends Component {
         modals,
       };
     });
+
+    if (type === 'hours') {
+      this.setState({
+        inputs: {
+          ...inputs,
+          idProject: id,
+        },
+      });
+    }
   }
 
   descInputHandler(e) {
@@ -261,6 +272,40 @@ class App extends Component {
     }));
   }
 
+  addHours() {
+    const { database, inputs } = this.state;
+    const newEmployees = [...database.employees];
+    const newEmployeeIndex = newEmployees.findIndex(
+      (el) => el.id === parseInt(inputs.idEmployee, 10),
+    );
+    if (newEmployeeIndex < 0) {
+      this.closeModalHandler();
+      return;
+    }
+    const projectIndex = newEmployees[newEmployeeIndex].projects.findIndex(
+      (el) => el.id === parseInt(inputs.idProject, 10),
+    );
+    if (projectIndex >= 0) {
+      newEmployees[newEmployeeIndex].projects[projectIndex].hours = parseInt(
+        inputs.hours,
+        10,
+      );
+    } else {
+      newEmployees[newEmployeeIndex].projects.push({
+        id: inputs.idProject,
+        hours: parseInt(inputs.hours, 10),
+      });
+    }
+    // console.log(newEmployees);
+    this.setState({
+      database: {
+        projects: [...database.projects],
+        employees: newEmployees,
+      },
+    });
+    this.closeModalHandler();
+  }
+
   addEmployeeHandler() {
     const { database, inputs } = this.state;
     const newId = database.employees[database.employees.length - 1].id + 1;
@@ -335,6 +380,7 @@ class App extends Component {
     const employeeIndex = newEmployees.findIndex(
       (emp) => emp.id === idEmployee,
     );
+
     newEmployees[employeeIndex].firstName = firstName;
     newEmployees[employeeIndex].lastName = lastName;
     newEmployees[employeeIndex].phone = phone;
@@ -396,10 +442,11 @@ class App extends Component {
         firstName: '',
         lastName: '',
         phone: '',
-        name: '',
+        title: '',
         desc: '',
-        idProject: null,
-        idEmployee: null,
+        idProject: '',
+        idEmployee: '',
+        hours: '',
       },
     });
   }
@@ -464,7 +511,7 @@ class App extends Component {
               closeModal={this.closeModalHandler}
               changeHours={this.hoursInputHandler}
               changeIdEmployee={this.idEmployeeInputHandler}
-              addHours={() => this.closeModalHandler()}
+              addHours={this.addHours}
             />
             <PageWrapper>
               <Switch>

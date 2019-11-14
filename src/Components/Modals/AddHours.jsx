@@ -52,42 +52,56 @@ const AddHours = ({
   changeIdEmployee,
   changeHours,
   addHours,
-}) => {
-  return (
-    <Backdrop show={show}>
-      <Modal>
-        <ModalInputs>
-          <InputRow htmlFor="firstName">
-            Employee ID:
-            <ModalInput
-              type="text"
-              name="employeeId"
-              value={value.idEmployee}
-              onChange={changeIdEmployee}
-            />
-          </InputRow>
-          <InputRow htmlFor="firstName">
-            Hours:
-            <ModalInput
-              type="text"
-              name="employeeId"
-              value={value.hours}
-              onChange={changeHours}
-            />
-          </InputRow>
-          <ModalWarning>
-            If employee has some hours in this project, it will be overwritten!
-          </ModalWarning>
-        </ModalInputs>
-        <ModalButtons>
-          <Button type="doit" label="Save" click={addHours} />
-          <Button type="primary" label="Cancel" click={closeModal} />
-        </ModalButtons>
-      </Modal>
-    </Backdrop>
-  );
+}) => (
+  <Backdrop show={show}>
+    <Modal>
+      <ModalInputs>
+        <InputRow htmlFor="firstName">
+          Employee ID:
+          <ModalInput
+            type="number"
+            name="employeeId"
+            value={value.idEmployee}
+            onChange={changeIdEmployee}
+          />
+        </InputRow>
+        <InputRow htmlFor="firstName">
+          Hours:
+          <ModalInput
+            type="number"
+            name="employeeId"
+            value={value.hours}
+            onChange={changeHours}
+          />
+        </InputRow>
+        <ModalWarning>
+          If employee has some hours in this project, it will be overwritten!
+        </ModalWarning>
+      </ModalInputs>
+      <ModalButtons>
+        <Button type="doit" label="Save" click={addHours} />
+        <Button type="primary" label="Cancel" click={closeModal} />
+      </ModalButtons>
+    </Modal>
+  </Backdrop>
+);
+
+AddHours.propTypes = {
+  show: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  value: PropTypes.object,
+  changeHours: PropTypes.func,
+  changeIdEmployee: PropTypes.func,
+  closeModal: PropTypes.func,
+  addHours: PropTypes.func,
 };
 
-AddHours.propTypes = {};
+AddHours.defaultProps = {
+  value: {},
+  changeHours: () => {},
+  changeIdEmployee: () => {},
+  closeModal: () => {},
+  addHours: () => {},
+};
 
 export default AddHours;
