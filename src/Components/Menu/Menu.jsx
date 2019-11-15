@@ -52,7 +52,7 @@ const MenuWrapper = styled.div`
     ${(props) => (props.defaultPosition ? '0s' : '0.1s')} ease forwards;
 `;
 
-const Menu = ({ toggled, defaultPosition, changeLanguage }) => (
+const Menu = ({ toggled, defaultPosition, openModal }) => (
   <MenuWrapper toggled={toggled} defaultPosition={defaultPosition}>
     <IconsGroup>
       <Link to="/">
@@ -66,7 +66,7 @@ const Menu = ({ toggled, defaultPosition, changeLanguage }) => (
       </Link>
     </IconsGroup>
     <IconsGroup>
-      <IconButton icon={settings} click={changeLanguage} />
+      <IconButton icon={settings} click={() => openModal('settings')} />
     </IconsGroup>
   </MenuWrapper>
 );
@@ -76,11 +76,7 @@ Menu.propTypes = {
   defaultPosition: PropTypes.bool.isRequired,
 
   // TEST PROP
-  changeLanguage: PropTypes.func,
-};
-
-Menu.defaultProps = {
-  changeLanguage: PropTypes.func,
+  openModal: PropTypes.func.isRequired,
 };
 
 const checkProps = (prev, next) => {

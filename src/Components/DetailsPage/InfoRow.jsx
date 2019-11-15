@@ -6,8 +6,8 @@ const RowWrapper = styled.p`
   margin: 15px 30px;
 `;
 
-const InfoRow = ({ label, data }) => (
-  <RowWrapper>
+const InfoRow = ({ label, data, className }) => (
+  <RowWrapper className={className}>
     <b>{String(label).concat(': ')}</b>
     {data}
   </RowWrapper>

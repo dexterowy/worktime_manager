@@ -40,6 +40,8 @@ const DetailsPage = (props) => {
   const {
     type,
     match,
+    location,
+    history,
     deleteEmployee,
     deleteProject,
     loadEmployeeData,
@@ -50,7 +52,7 @@ const DetailsPage = (props) => {
   const info = database[
     type === 'projectsDetails' ? 'projects' : 'employees'
   ].find((el) => el.id === parseInt(match.params.id, 10));
-
+  console.log(match, location, history);
   let Details;
   let listItems = {};
   if (type === 'projectsDetails') {
@@ -69,7 +71,7 @@ const DetailsPage = (props) => {
       </>
     );
 
-    // Find and match related projects for this person
+    // Find and match related persons for this project
     listItems = database.employees
       .filter((person) => {
         let matchPerson = false;
@@ -106,7 +108,7 @@ const DetailsPage = (props) => {
         />
       </>
     );
-    //  Find and match related persons for this project
+    //  Find and match related projects for this person
     listItems = info.projects.map((el) => ({
       ...database.projects.find((item) => el.id === item.id),
       hours: el.hours,
@@ -125,6 +127,11 @@ const DetailsPage = (props) => {
         type="danger"
         click={() => deleteEmployee(info.id)}
         label={texts.details.employees.buttons.delete[language]}
+      />
+      <Button
+        type="primary"
+        click={() => history.push('/employees/report/' + info.id)}
+        label={texts.employees.buttons.report[language]}
       />
     </ButtonsLine>
   );
@@ -146,13 +153,6 @@ const DetailsPage = (props) => {
         type="danger"
         click={() => deleteProject(info.id)}
         label={texts.details.projects.buttons.delete[language]}
-      />
-      <Button
-        type="primary"
-        click={() => {
-          //  TO DO
-        }}
-        label={texts.details.projects.buttons.report[language]}
       />
     </ButtonsLine>
   );

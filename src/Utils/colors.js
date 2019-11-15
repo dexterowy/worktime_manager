@@ -5,7 +5,9 @@ const colors = {
     app: '#E7E7E7',
     hover: '#AEAFA5',
     modal: '#D9D9D9',
+    dashboardBox: '#D9D9D9',
     backdrop: 'rgba(85, 85, 85, 0.6)',
+    settingsBox: '#C4C4C4',
   },
   fonts: {
     light: '#D9D9D9',

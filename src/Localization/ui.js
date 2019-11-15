@@ -4,9 +4,25 @@ const texts = {
     en: 'Worktime Manager',
   },
   dashboard: {
-    header: {
-      pol: 'Kokpit',
-      en: 'Dashboard',
+    headers: {
+      shortcuts: {
+        pol: 'Na skróty',
+        en: 'Shortcuts',
+      },
+      topList: {
+        pol: 'Najtrudniejsze projekty',
+        en: 'Most difficult projects',
+      },
+      lastProject: {
+        pol: 'Najnowszy Projekt',
+        en: 'The lastest Project',
+      },
+    },
+    lastProject: {
+      totalHours: {
+        pol: 'Godzin łącznie',
+        en: 'Total Hours',
+      },
     },
   },
   employees: {

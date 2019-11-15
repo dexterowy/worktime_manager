@@ -9,6 +9,7 @@ import employeesFile from './employees.json';
 import projectsFile from './projects.json';
 
 //  Components
+import Report from './Components/Report/Report';
 import Navbar from './Components/Navbar/Navbar';
 import Menu from './Components/Menu/Menu';
 import Dashboard from './Components/Dashboard/Dashboard';
@@ -18,6 +19,7 @@ import PageWrapper from './hoc/pageWrapper';
 import AddEmployee from './Components/Modals/AddEmployee';
 import AddProject from './Components/Modals/AddProject';
 import AddHours from './Components/Modals/AddHours';
+import Settings from './Components/Modals/Settings';
 
 // utils
 import colors from './Utils/colors';
@@ -36,7 +38,7 @@ class App extends Component {
     super(props);
     // console.log(props);
     this.state = {
-      language: 'pol',
+      language: 'en',
       database: {
         employees: employeesFile,
         projects: projectsFile,
@@ -84,6 +86,7 @@ class App extends Component {
     this.hoursInputHandler = this.hoursInputHandler.bind(this);
     this.idEmployeeInputHandler = this.idEmployeeInputHandler.bind(this);
     this.addHours = this.addHours.bind(this);
+    this.languageInputHandler = this.languageInputHandler.bind(this);
   }
 
   toggleMenuHandler() {
@@ -272,6 +275,12 @@ class App extends Component {
     }));
   }
 
+  languageInputHandler(lang) {
+    this.setState({
+      language: lang,
+    });
+  }
+
   addHours() {
     const { database, inputs } = this.state;
     const newEmployees = [...database.employees];
@@ -366,7 +375,6 @@ class App extends Component {
         idEmployee: id,
       },
     });
-    //  CHANGE IT LATER!!
     this.openModalHandler('editEmployee');
   }
 
@@ -406,7 +414,6 @@ class App extends Component {
         idProject: id,
       },
     });
-    //  CHANGE IT LATER!!
     this.openModalHandler('editProject');
   }
 
@@ -470,6 +477,7 @@ class App extends Component {
               toggled={menu.isOpen}
               defaultPosition={menu.defaultPosition}
               changeLanguage={this.changeLanguageHandler}
+              openModal={this.openModalHandler}
             />
             <AddEmployee
               show={modals.addEmployee}
@@ -523,9 +531,24 @@ class App extends Component {
               labels={text.modals.addHours}
               language={language}
             />
+            <Settings
+              show={modals.settings}
+              value={language}
+              changeLanguage={this.languageInputHandler}
+              closeModal={this.closeModalHandler}
+            />
             <PageWrapper>
               <Switch>
-                <Route path="/" exact render={() => <Dashboard />} />
+                <Route
+                  path="/"
+                  exact
+                  render={() => (
+                    <Dashboard
+                      openModal={this.openModalHandler}
+                      database={database}
+                    />
+                  )}
+                />
                 <Route
                   path="/projects/:id"
                   exact
@@ -547,6 +570,18 @@ class App extends Component {
                       deleteEmployee={this.deleteEmployeeHandler}
                       loadEmployeeData={this.loadEmployeeDataHandler}
                     />
+                  )}
+                />
+                <Route
+                  path="/employees/report/:id"
+                  exact
+                  render={() => (
+                    // <DetailsPage
+                    //   type="employeesDetails"
+                    //   deleteEmployee={this.deleteEmployeeHandler}
+                    //   loadEmployeeData={this.loadEmployeeDataHandler}
+                    // />
+                    <Report database={database} />
                   )}
                 />
                 <Route

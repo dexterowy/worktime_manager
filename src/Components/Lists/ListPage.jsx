@@ -35,11 +35,6 @@ const ListPage = ({ type, openModal }) => {
         click={() => openModal('addEmployee')}
         label={texts.employees.buttons.add[language]}
       />
-      <Button
-        type="primary"
-        click={tmp}
-        label={texts.employees.buttons.report[language]}
-      />
     </>
   );
 
