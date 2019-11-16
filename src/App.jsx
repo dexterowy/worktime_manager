@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Switch, Route, withRouter } from 'react-router-dom';
+// eslint-disable-next-line object-curly-newline
+import { Switch, Route, withRouter, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import TextContext from './context/textContext';
 import text from './Localization/ui';
 
@@ -16,10 +18,7 @@ import Dashboard from './Components/Dashboard/Dashboard';
 import ListPage from './Components/Lists/ListPage';
 import DetailsPage from './Components/DetailsPage/DetailsPage';
 import PageWrapper from './hoc/pageWrapper';
-import AddEmployee from './Components/Modals/AddEmployee';
-import AddProject from './Components/Modals/AddProject';
-import AddHours from './Components/Modals/AddHours';
-import Settings from './Components/Modals/Settings';
+import Modals from './Components/Modals/Modals';
 
 // utils
 import colors from './Utils/colors';
@@ -36,7 +35,6 @@ const MainWrapper = styled.div`
 class App extends Component {
   constructor(props) {
     super(props);
-    // console.log(props);
     this.state = {
       language: 'en',
       database: {
@@ -66,16 +64,10 @@ class App extends Component {
         hours: '',
       },
     };
-    this.firstNameInputHandler = this.firstNameInputHandler.bind(this);
     this.toggleMenuHandler = this.toggleMenuHandler.bind(this);
     this.deleteEmployeeHandler = this.deleteEmployeeHandler.bind(this);
     this.deleteProjectHandler = this.deleteProjectHandler.bind(this);
-    this.changeLanguageHandler = this.changeLanguageHandler.bind(this);
     this.openModalHandler = this.openModalHandler.bind(this);
-    this.descInputHandler = this.descInputHandler.bind(this);
-    this.lastNameInputHandler = this.lastNameInputHandler.bind(this);
-    this.titleInputHandler = this.titleInputHandler.bind(this);
-    this.phoneInputHandler = this.phoneInputHandler.bind(this);
     this.addEmployeeHandler = this.addEmployeeHandler.bind(this);
     this.closeModalHandler = this.closeModalHandler.bind(this);
     this.addProjectHandler = this.addProjectHandler.bind(this);
@@ -83,10 +75,9 @@ class App extends Component {
     this.editEmployeeHandler = this.editEmployeeHandler.bind(this);
     this.loadProjectDataHandler = this.loadProjectDataHandler.bind(this);
     this.editProjectHandler = this.editProjectHandler.bind(this);
-    this.hoursInputHandler = this.hoursInputHandler.bind(this);
-    this.idEmployeeInputHandler = this.idEmployeeInputHandler.bind(this);
     this.addHours = this.addHours.bind(this);
     this.languageInputHandler = this.languageInputHandler.bind(this);
+    this.inputHandler = this.inputHandler.bind(this);
   }
 
   toggleMenuHandler() {
@@ -100,12 +91,10 @@ class App extends Component {
 
   deleteEmployeeHandler(id) {
     const { language } = this.state;
-    // eslint-disable-next-line react/prop-types
     const { history } = this.props;
     // eslint-disable-next-line no-alert
     if (window.confirm(text.actions.delete.employee[language])) {
       // redirect to the employees list
-      // eslint-disable-next-line react/prop-types
       history.replace('/employees');
       this.setState((prevState) => {
         //  find index of the employee
@@ -128,23 +117,22 @@ class App extends Component {
 
   deleteProjectHandler(id) {
     const { language } = this.state;
-    // eslint-disable-next-line react/prop-types
     const { history } = this.props;
     // eslint-disable-next-line no-alert
     if (window.confirm(text.actions.delete.project[language])) {
-      // redirect to the employees list
-      // eslint-disable-next-line react/prop-types
+      // redirect to the project list
       history.replace('/projects');
       this.setState((prevState) => {
-        //  find index of the employee
+        //  find index of the project
         const projectIndex = prevState.database.projects.findIndex(
           (el) => id === el.id,
         );
-        //  clone array of employees
+        //  clone array of projects
         const filteredProjects = [...prevState.database.projects];
-        //  remove employee from array
+        //  remove project from array
         filteredProjects.splice(projectIndex, 1);
 
+        //  update employee's projects
         const filteredEmployees = [...prevState.database.employees].map(
           (el) => ({
             ...el,
@@ -159,20 +147,6 @@ class App extends Component {
         };
       });
     }
-  }
-
-  // JUST TO CHECK IF I18N WORKS
-  changeLanguageHandler() {
-    this.setState((prevState) => {
-      if (prevState.language === 'pol') {
-        return {
-          language: 'en',
-        };
-      }
-      return {
-        language: 'pol',
-      };
-    });
   }
 
   openModalHandler(type, id = null) {
@@ -198,81 +172,14 @@ class App extends Component {
     }
   }
 
-  descInputHandler(e) {
-    e.persist();
-
-    this.setState((prevState) => ({
+  inputHandler(e, input) {
+    const { inputs } = this.state;
+    this.setState({
       inputs: {
-        ...prevState.inputs,
-        desc: e.target.value,
+        ...inputs,
+        [input]: e.target.value,
       },
-    }));
-  }
-
-  firstNameInputHandler(event) {
-    event.persist();
-
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        firstName: event.target.value,
-      },
-    }));
-  }
-
-  lastNameInputHandler(e) {
-    e.persist();
-
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        lastName: e.target.value,
-      },
-    }));
-  }
-
-  titleInputHandler(e) {
-    e.persist();
-
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        title: e.target.value,
-      },
-    }));
-  }
-
-  phoneInputHandler(e) {
-    e.persist();
-
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        phone: e.target.value,
-      },
-    }));
-  }
-
-  hoursInputHandler(e) {
-    e.persist();
-
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        hours: e.target.value,
-      },
-    }));
-  }
-
-  idEmployeeInputHandler(e) {
-    e.persist();
-
-    this.setState((prevState) => ({
-      inputs: {
-        ...prevState.inputs,
-        idEmployee: e.target.value,
-      },
-    }));
+    });
   }
 
   languageInputHandler(lang) {
@@ -284,28 +191,39 @@ class App extends Component {
   addHours() {
     const { database, inputs } = this.state;
     const newEmployees = [...database.employees];
+    //  Find index of employee in database
     const newEmployeeIndex = newEmployees.findIndex(
       (el) => el.id === parseInt(inputs.idEmployee, 10),
     );
     if (newEmployeeIndex < 0) {
-      this.closeModalHandler();
+      // eslint-disable-next-line no-alert
+      alert('Error! Invalid ID.');
       return;
     }
+    if (inputs.hours <= 0) {
+      // eslint-disable-next-line no-alert
+      alert('Error! Hours should be positive number.');
+      return;
+    }
+    //  Find index of project in database
     const projectIndex = newEmployees[newEmployeeIndex].projects.findIndex(
       (el) => el.id === parseInt(inputs.idProject, 10),
     );
+    //  If employee is already assigned to the project,
+    //  update hours property
     if (projectIndex >= 0) {
       newEmployees[newEmployeeIndex].projects[projectIndex].hours = parseInt(
         inputs.hours,
         10,
       );
+      //  If employee has no realtions with this project
+      //  add new relation to the projects property
     } else {
       newEmployees[newEmployeeIndex].projects.push({
         id: inputs.idProject,
         hours: parseInt(inputs.hours, 10),
       });
     }
-    // console.log(newEmployees);
     this.setState({
       database: {
         projects: [...database.projects],
@@ -317,7 +235,10 @@ class App extends Component {
 
   addEmployeeHandler() {
     const { database, inputs } = this.state;
+    // Generate id for new employee
     const newId = database.employees[database.employees.length - 1].id + 1;
+
+    // Create new employee object
     const newEmployee = {
       id: newId,
       firstName: inputs.firstName,
@@ -327,6 +248,7 @@ class App extends Component {
     };
     this.setState((prevState) => {
       const newEmployees = [...prevState.database.employees];
+      //  Add new employee to the database
       newEmployees.push(newEmployee);
       const newDatabase = {
         projects: [...prevState.database.projects],
@@ -341,7 +263,9 @@ class App extends Component {
 
   addProjectHandler() {
     const { database, inputs } = this.state;
+    // Generate id for new project
     const newId = database.projects[database.projects.length - 1].id + 1;
+    // Create new project object
     const newProject = {
       id: newId,
       title: inputs.title,
@@ -349,6 +273,7 @@ class App extends Component {
     };
     this.setState((prevState) => {
       const newProjects = [...prevState.database.projects];
+      //  Add new project to the database
       newProjects.push(newProject);
       const newDatabase = {
         projects: newProjects,
@@ -361,6 +286,8 @@ class App extends Component {
     this.closeModalHandler();
   }
 
+  // Loading employee data to the inputs state,
+  // before edit modal opening
   loadEmployeeDataHandler(id) {
     const { database, inputs } = this.state;
     const { firstName, lastName, phone } = database.employees.find(
@@ -385,10 +312,11 @@ class App extends Component {
       inputs: { firstName, lastName, phone, idEmployee },
     } = this.state;
     const newEmployees = [...database.employees];
+    // Find employee's index in database
     const employeeIndex = newEmployees.findIndex(
       (emp) => emp.id === idEmployee,
     );
-
+    //  Update employee data
     newEmployees[employeeIndex].firstName = firstName;
     newEmployees[employeeIndex].lastName = lastName;
     newEmployees[employeeIndex].phone = phone;
@@ -402,6 +330,8 @@ class App extends Component {
   }
 
   loadProjectDataHandler(id) {
+    // Load project data to the inputs state,
+    // before edit modal opening
     const { database, inputs } = this.state;
     const { title, description } = database.projects.find(
       (emp) => emp.id === id,
@@ -423,7 +353,9 @@ class App extends Component {
       inputs: { title, desc, idProject },
     } = this.state;
     const newProjects = [...database.projects];
+    // Find project's index in database
     const projectIndex = newProjects.findIndex((emp) => emp.id === idProject);
+    // Update project
     newProjects[projectIndex].title = title;
     newProjects[projectIndex].description = desc;
     this.setState({
@@ -436,6 +368,7 @@ class App extends Component {
   }
 
   closeModalHandler() {
+    // Close all modals
     this.setState({
       modals: {
         addEmployee: false,
@@ -445,6 +378,7 @@ class App extends Component {
         settings: false,
         hours: false,
       },
+      //  Clear all inputs
       inputs: {
         firstName: '',
         lastName: '',
@@ -464,8 +398,10 @@ class App extends Component {
     return (
       <TextContext.Provider
         value={{
+          // Internationalization
           texts: { ...text },
           language,
+          //  Database of projects and employees
           database,
         }}
       >
@@ -476,66 +412,21 @@ class App extends Component {
             <Menu
               toggled={menu.isOpen}
               defaultPosition={menu.defaultPosition}
-              changeLanguage={this.changeLanguageHandler}
               openModal={this.openModalHandler}
             />
-            <AddEmployee
-              show={modals.addEmployee}
-              value={inputs}
+            <Modals
+              modals={modals}
+              inputs={inputs}
+              text={text}
+              language={language}
               closeModal={this.closeModalHandler}
-              changeFirstName={this.firstNameInputHandler}
-              changeLastName={this.lastNameInputHandler}
-              changePhone={this.phoneInputHandler}
+              inputHandler={this.inputHandler}
               addEmployee={this.addEmployeeHandler}
-              labels={text.modals.addEmployee}
-              language={language}
-            />
-            <AddEmployee
-              show={modals.editEmployee}
-              value={inputs}
-              closeModal={this.closeModalHandler}
-              changeFirstName={this.firstNameInputHandler}
-              changeLastName={this.lastNameInputHandler}
-              changePhone={this.phoneInputHandler}
-              addEmployee={this.editEmployeeHandler}
-              labels={text.modals.editEmployee}
-              language={language}
-            />
-            <AddProject
-              show={modals.addProject}
-              value={inputs}
-              closeModal={this.closeModalHandler}
-              changeTitle={this.titleInputHandler}
-              changeDesc={this.descInputHandler}
+              editEmployee={this.editEmployeeHandler}
               addProject={this.addProjectHandler}
-              labels={text.modals.addProject}
-              language={language}
-            />
-            <AddProject
-              show={modals.editProject}
-              value={inputs}
-              closeModal={this.closeModalHandler}
-              changeTitle={this.titleInputHandler}
-              changeDesc={this.descInputHandler}
-              addProject={this.editProjectHandler}
-              labels={text.modals.editProject}
-              language={language}
-            />
-            <AddHours
-              show={modals.hours}
-              value={inputs}
-              closeModal={this.closeModalHandler}
-              changeHours={this.hoursInputHandler}
-              changeIdEmployee={this.idEmployeeInputHandler}
+              editProject={this.editProjectHandler}
               addHours={this.addHours}
-              labels={text.modals.addHours}
-              language={language}
-            />
-            <Settings
-              show={modals.settings}
-              value={language}
-              changeLanguage={this.languageInputHandler}
-              closeModal={this.closeModalHandler}
+              languageInput={this.languageInputHandler}
             />
             <PageWrapper>
               <Switch>
@@ -575,14 +466,7 @@ class App extends Component {
                 <Route
                   path="/employees/report/:id"
                   exact
-                  render={() => (
-                    // <DetailsPage
-                    //   type="employeesDetails"
-                    //   deleteEmployee={this.deleteEmployeeHandler}
-                    //   loadEmployeeData={this.loadEmployeeDataHandler}
-                    // />
-                    <Report database={database} />
-                  )}
+                  render={() => <Report database={database} />}
                 />
                 <Route
                   path="/projects"
@@ -604,6 +488,9 @@ class App extends Component {
                     />
                   )}
                 />
+                <Route>
+                  <Redirect to="/" />
+                </Route>
               </Switch>
             </PageWrapper>
           </MainWrapper>
@@ -612,5 +499,11 @@ class App extends Component {
     );
   }
 }
+
+App.propTypes = {
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+  }).isRequired,
+};
 
 export default withRouter(App);

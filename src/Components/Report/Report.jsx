@@ -1,7 +1,8 @@
-import React from 'react';
+/* eslint-disable react/jsx-one-expression-per-line */
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import textConext from '../../context/textContext';
 import {
   Page,
   Text,
@@ -9,7 +10,18 @@ import {
   Document,
   StyleSheet,
   PDFViewer,
+  Font,
+  PDFDownloadLink,
 } from '@react-pdf/renderer';
+
+import colors from '../../Utils/colors';
+import textConext from '../../context/textContext';
+
+Font.register({
+  family: 'Roboto',
+  src:
+    'https://fonts.googleapis.com/css?family=Roboto&display=swap&subset=latin-ext',
+});
 
 // Create styles
 const styles = StyleSheet.create({
@@ -20,7 +32,17 @@ const styles = StyleSheet.create({
   section: {
     margin: 10,
     padding: 10,
-    flexGrow: 1,
+    // flexGrow: 1,
+  },
+  date: {
+    textAlign: 'right',
+    fontSize: 16,
+    padding: 20,
+  },
+  mainHeader: {
+    fontSize: 36,
+    textAlign: 'center',
+    padding: 20,
   },
   detailsSection: {
     margin: 10,
@@ -31,12 +53,20 @@ const styles = StyleSheet.create({
   },
   header: {
     margin: 10,
+    fontWeight: 'bold',
+    fontSize: 26,
   },
   list: {
     margin: 20,
   },
+  listHeading: {
+    borderBottom: '2 solid black',
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   listRow: {
-    borderBottom: '1px solid black',
+    borderBottom: '1 solid black',
     padding: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -45,15 +75,20 @@ const styles = StyleSheet.create({
 
 const StyledPDFViewer = styled(PDFViewer)`
   width: 100%;
-  height: 100%;
-  margin: 0;
+  height: calc(100% - 40px);
+  margin: 30px auto;
   padding: 0;
 `;
 
 // Create Document Component
-const MyDocument = ({ database, location, match }) => {
-  console.log(database, location);
+const MyDocument = ({ database, match }) => {
+  //  Get current date for header
+  const date = new Date();
+  // eslint-disable-next-line operator-linebreak
+  const dateHeader = `${date.getDate()}.${date.getMonth() +
+    1}.${date.getFullYear()}r.`;
 
+  //  Find Employee in database
   const info = database.employees.find(
     (el) => el.id === parseInt(match.params.id, 10),
   );
@@ -64,40 +99,91 @@ const MyDocument = ({ database, location, match }) => {
     hours: el.hours,
   }));
 
-  console.log(info, listItems);
+  const {
+    texts: {
+      details: { employees, listsType },
+      report,
+    },
+    language,
+  } = useContext(textConext);
+
+  //  React-PDF library doesn't support polish characters.
+  //  Language for report is fixed to english :(
+  const languageEN = 'en';
+
+  const ReportDocument = (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <Text style={styles.date}>{dateHeader}</Text>
+        <Text style={styles.mainHeader}>Report</Text>
+        <View style={styles.section}>
+          <Text style={styles.header}>Personal Data</Text>
+          <View style={styles.detailsSection}>
+            <Text style={styles.detailInfo}>
+              {employees.id[languageEN]}: {info.id}
+            </Text>
+            <Text style={styles.detailInfo}>
+              {employees.firstName[languageEN]}: {info.firstName}
+            </Text>
+
+            <Text style={styles.detailInfo}>
+              {employees.lastName[languageEN]}: {info.lastName}
+            </Text>
+            <Text style={styles.detailInfo}>
+              {employees.phone[languageEN]}: {info.phone}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.header}>{listsType.employee[languageEN]}</Text>
+          <View style={styles.list}>
+            <View style={styles.listHeading}>
+              <Text>Project</Text>
+              <Text>Hours</Text>
+            </View>
+            {listItems.map((el) => (
+              <View style={styles.listRow} key={el.id}>
+                <Text>{el.title}</Text>
+                <Text>{el.hours}h</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+      </Page>
+    </Document>
+  );
 
   return (
-    <StyledPDFViewer>
-      <Document>
-        <Page size="A4" style={styles.page}>
-          <View style={styles.section}>
-            <Text style={styles.header}>Personal Data</Text>
-            <Text style={styles.detailInfo}>ID: {info.id}</Text>
-            <View style={styles.detailsSection}>
-              <Text style={styles.detailInfo}>
-                First Name: {info.firstName}
-              </Text>
-              <Text style={styles.detailInfo}>Last Name: {info.lastName}</Text>
-              <Text style={styles.detailInfo}>Phone: {info.phone}</Text>
-            </View>
-          </View>
-          <View style={styles.section}>
-            <Text style={styles.header}>Related projects</Text>
-            <View style={styles.list}>
-              {listItems.map((el) => {
-                return (
-                  <View style={styles.listRow}>
-                    <Text>{el.title}</Text>
-                    <Text>{el.hours}h</Text>
-                  </View>
-                );
-              })}
-            </View>
-          </View>
-        </Page>
-      </Document>
-    </StyledPDFViewer>
+    <>
+      <PDFDownloadLink
+        document={ReportDocument}
+        style={{
+          color: colors.fonts.dark,
+          textDecoration: 'none',
+          padding: '20px',
+          backgroundColor: colors.buttons.primary,
+          margin: '15px',
+          borderRadius: '5px',
+        }}
+        fileName="somename.pdf"
+      >
+        {({ loading }) => (loading ? '' : report.download[language])}
+      </PDFDownloadLink>
+      <StyledPDFViewer>{ReportDocument}</StyledPDFViewer>
+    </>
   );
+};
+
+MyDocument.propTypes = {
+  database: PropTypes.shape({
+    employees: PropTypes.arrayOf(PropTypes.object),
+    projects: PropTypes.arrayOf(PropTypes.object).isRequired,
+  }).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
 };
 
 export default withRouter(MyDocument);

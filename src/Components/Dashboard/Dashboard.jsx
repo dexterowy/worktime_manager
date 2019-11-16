@@ -18,8 +18,7 @@ const DashboardWrapper = styled.div`
 `;
 
 const Dashboard = ({ openModal, database: { projects, employees } }) => {
-  // const { texts, language } = useContext(textContext);
-
+  //  Sum up hours for every project
   const fullProjects = projects.map((el) => {
     let totalHours = 0;
     employees.forEach((emp) => {
@@ -29,7 +28,7 @@ const Dashboard = ({ openModal, database: { projects, employees } }) => {
         }
       });
     });
-
+    //  Extend project object of totalHours property
     return {
       id: el.id,
       title: el.title,
@@ -40,9 +39,8 @@ const Dashboard = ({ openModal, database: { projects, employees } }) => {
 
   const lastProject = fullProjects[fullProjects.length - 1];
 
-  fullProjects.sort((a, b) => {
-    return b.totalHours - a.totalHours;
-  });
+  //  Sorting projects by total hours
+  fullProjects.sort((a, b) => b.totalHours - a.totalHours);
 
   return (
     <DashboardWrapper>
@@ -55,6 +53,10 @@ const Dashboard = ({ openModal, database: { projects, employees } }) => {
 
 Dashboard.propTypes = {
   openModal: PropTypes.func.isRequired,
+  database: PropTypes.shape({
+    projects: PropTypes.array,
+    employees: PropTypes.array,
+  }).isRequired,
 };
 
 export default Dashboard;

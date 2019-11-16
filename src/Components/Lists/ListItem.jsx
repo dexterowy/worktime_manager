@@ -109,20 +109,7 @@ const ListItem = ({
     );
   }
 
-  return (
-    <StyledListItem>
-      {/* <Info>
-      <StyledData>{id}</StyledData>
-      <StyledData>{name}</StyledData>
-      {lastname !== '' ? <StyledData>{lastname}</StyledData> : null}
-      <StyledData>
-        <Link to={`${pathname}/${id}`}>
-          <StyledIcon src={infoSvg} />
-        </Link>
-      </StyledData> */}
-      {styledData}
-    </StyledListItem>
-  );
+  return <StyledListItem>{styledData}</StyledListItem>;
 };
 
 ListItem.propTypes = {

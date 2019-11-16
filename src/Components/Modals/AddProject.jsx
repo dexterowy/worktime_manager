@@ -56,8 +56,7 @@ const AddProject = ({
   value,
   labels,
   language,
-  changeTitle,
-  changeDesc,
+  inputHandler,
   closeModal,
   addProject,
   show,
@@ -72,13 +71,17 @@ const AddProject = ({
             type="text"
             name="title"
             value={value.title}
-            onChange={changeTitle}
+            onChange={(e) => inputHandler(e, 'title')}
           />
         </InputRow>
         <DescRow htmlFor="desc">
           {labels.labels.desc[language]}
           :
-          <DescInput name="desc" value={value.desc} onChange={changeDesc} />
+          <DescInput
+            name="desc"
+            value={value.desc}
+            onChange={(e) => inputHandler(e, 'desc')}
+          />
         </DescRow>
       </ModalInputs>
       <ModalButtons>
@@ -101,8 +104,7 @@ AddProject.propTypes = {
   show: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   value: PropTypes.object,
-  changeTitle: PropTypes.func,
-  changeDesc: PropTypes.func,
+  inputHandler: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
   addProject: PropTypes.func,
   labels: PropTypes.shape({
@@ -136,8 +138,6 @@ AddProject.propTypes = {
 
 AddProject.defaultProps = {
   value: {},
-  changeTitle: () => {},
-  changeDesc: () => {},
   closeModal: () => {},
   addProject: () => {},
 };

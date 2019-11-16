@@ -3,6 +3,12 @@ const texts = {
     pol: 'System Ewidencji Czasu Pracy',
     en: 'Worktime Manager',
   },
+  report: {
+    download: {
+      pol: 'Pobierz PDF',
+      en: 'Download PDF',
+    },
+  },
   dashboard: {
     headers: {
       shortcuts: {

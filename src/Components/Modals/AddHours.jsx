@@ -51,8 +51,7 @@ const AddHours = ({
   value,
   language,
   closeModal,
-  changeIdEmployee,
-  changeHours,
+  inputHandler,
   addHours,
 }) => (
   <Backdrop show={show}>
@@ -65,7 +64,7 @@ const AddHours = ({
             type="number"
             name="employeeId"
             value={value.idEmployee}
-            onChange={changeIdEmployee}
+            onChange={(e) => inputHandler(e, 'idEmployee')}
           />
         </InputRow>
         <InputRow htmlFor="firstName">
@@ -75,7 +74,7 @@ const AddHours = ({
             type="number"
             name="employeeId"
             value={value.hours}
-            onChange={changeHours}
+            onChange={(e) => inputHandler(e, 'hours')}
           />
         </InputRow>
         <ModalWarning>{labels.warning[language]}</ModalWarning>
@@ -100,8 +99,7 @@ AddHours.propTypes = {
   show: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   value: PropTypes.object,
-  changeHours: PropTypes.func,
-  changeIdEmployee: PropTypes.func,
+  inputHandler: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
   addHours: PropTypes.func,
   labels: PropTypes.shape({
@@ -139,8 +137,6 @@ AddHours.propTypes = {
 
 AddHours.defaultProps = {
   value: {},
-  changeHours: () => {},
-  changeIdEmployee: () => {},
   closeModal: () => {},
   addHours: () => {},
 };

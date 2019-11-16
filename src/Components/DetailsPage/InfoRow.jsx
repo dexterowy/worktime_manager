@@ -16,6 +16,11 @@ const InfoRow = ({ label, data, className }) => (
 InfoRow.propTypes = {
   label: PropTypes.string.isRequired,
   data: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+  className: PropTypes.string,
+};
+
+InfoRow.defaultProps = {
+  className: '',
 };
 
 export default InfoRow;

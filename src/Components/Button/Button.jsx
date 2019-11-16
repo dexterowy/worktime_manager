@@ -24,6 +24,7 @@ const StyledButton = styled.button`
   }
 `;
 
+// eslint-disable-next-line object-curly-newline
 const Button = ({ type, label, click, className }) => (
   <StyledButton className={className} onClick={click} bg={type} type="button">
     {label}
@@ -34,6 +35,11 @@ Button.propTypes = {
   label: PropTypes.string.isRequired,
   click: PropTypes.func.isRequired,
   type: PropTypes.oneOf(['primary', 'danger', 'doit']).isRequired,
+  className: PropTypes.string,
+};
+
+Button.defaultProps = {
+  className: '',
 };
 
 export default Button;

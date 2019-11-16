@@ -42,9 +42,7 @@ const AddEmployee = ({
   labels,
   language,
   closeModal,
-  changeFirstName,
-  changeLastName,
-  changePhone,
+  inputHandler,
   addEmployee,
 }) => (
   <Backdrop show={show}>
@@ -57,7 +55,7 @@ const AddEmployee = ({
             type="text"
             name="firstName"
             value={value.firstName}
-            onChange={changeFirstName}
+            onChange={(e) => inputHandler(e, 'firstName')}
           />
         </InputRow>
         <InputRow htmlFor="lastName">
@@ -67,7 +65,7 @@ const AddEmployee = ({
             type="text"
             name="lastName"
             value={value.lastName}
-            onChange={changeLastName}
+            onChange={(e) => inputHandler(e, 'lastName')}
           />
         </InputRow>
         <InputRow htmlFor="phone">
@@ -77,7 +75,7 @@ const AddEmployee = ({
             type="text"
             name="phone"
             value={value.phone}
-            onChange={changePhone}
+            onChange={(e) => inputHandler(e, 'phone')}
           />
         </InputRow>
       </ModalInputs>
@@ -101,9 +99,7 @@ AddEmployee.propTypes = {
   show: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   value: PropTypes.object,
-  changeFirstName: PropTypes.func,
-  changeLastName: PropTypes.func,
-  changePhone: PropTypes.func,
+  inputHandler: PropTypes.func.isRequired,
   closeModal: PropTypes.func,
   addEmployee: PropTypes.func,
   labels: PropTypes.shape({
@@ -141,9 +137,6 @@ AddEmployee.propTypes = {
 
 AddEmployee.defaultProps = {
   value: {},
-  changeFirstName: () => {},
-  changePhone: () => {},
-  changeLastName: () => {},
   closeModal: () => {},
   addEmployee: () => {},
 };

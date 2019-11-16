@@ -24,10 +24,6 @@ const ListPage = ({ type, openModal }) => {
     database: { employees, projects },
   } = useContext(textContext);
 
-  //   TEMP FUNCTION     DELETE THAT!!!!!
-  // eslint-disable-next-line no-console
-  const tmp = () => console.log('clicked!');
-
   const EmployeesButtons = (
     <>
       <Button

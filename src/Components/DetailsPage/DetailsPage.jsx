@@ -40,7 +40,6 @@ const DetailsPage = (props) => {
   const {
     type,
     match,
-    location,
     history,
     deleteEmployee,
     deleteProject,
@@ -52,7 +51,10 @@ const DetailsPage = (props) => {
   const info = database[
     type === 'projectsDetails' ? 'projects' : 'employees'
   ].find((el) => el.id === parseInt(match.params.id, 10));
-  console.log(match, location, history);
+  if (info === undefined) {
+    history.replace('/');
+    return null;
+  }
   let Details;
   let listItems = {};
   if (type === 'projectsDetails') {
@@ -130,7 +132,7 @@ const DetailsPage = (props) => {
       />
       <Button
         type="primary"
-        click={() => history.push('/employees/report/' + info.id)}
+        click={() => history.push(`/employees/report/${info.id}`)}
         label={texts.employees.buttons.report[language]}
       />
     </ButtonsLine>
@@ -189,6 +191,10 @@ DetailsPage.propTypes = {
   loadEmployeeData: PropTypes.func,
   loadProjectData: PropTypes.func,
   openHoursModal: PropTypes.func,
+  history: PropTypes.shape({
+    replace: PropTypes.func,
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 DetailsPage.defaultProps = {

@@ -14,7 +14,6 @@ const showAnimation = keyframes`
     from {
         transform: translateX(-60px);
     }
-    
     to {
         transform: translateX(0px);
     }
@@ -24,7 +23,6 @@ const hideAnimation = keyframes`
     from {
         transform: translateX(0px);
     }
-    
     to {
         transform: translateX(-60px);
     }

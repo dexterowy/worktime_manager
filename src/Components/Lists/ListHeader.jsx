@@ -6,21 +6,12 @@ import textContext from '../../context/textContext';
 import colors from '../../Utils/colors';
 
 const StyledListItem = styled.tr`
-  /* width: 100%; */
-  /* padding: 20px; */
   color: ${colors.backgrounds.navbar};
   font-size: 1em;
   border-bottom: 1px solid ${colors.backgrounds.navbar};
-  /* transition: 0.2s ease-in-out; */
   display: flex;
   justify-content: flex-start;
 `;
-
-// const Info = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   width: 40%;
-// `;
 
 const StyledHeader = styled.th`
   width: 150px;

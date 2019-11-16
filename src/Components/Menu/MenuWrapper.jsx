@@ -14,9 +14,6 @@ const Wrapper = styled.div`
   width: 60px;
   height: calc(100vh - 60px);
   background: ${colors.backgrounds.navbar};
-
-  /* Menu toggle animation */
-  /* 'defaultPosition' prevent to animate on first load */
 `;
 
 const MenuWrapper = ({ children }) => <Wrapper>{children}</Wrapper>;
